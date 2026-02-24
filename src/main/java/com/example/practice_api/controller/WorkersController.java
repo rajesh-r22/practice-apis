@@ -20,6 +20,11 @@ public class WorkersController {
     public List<Workers> findAll() {
         return workersService.getAll();
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<Workers> findById(@PathVariable Long id){
+        Workers worker=workersService.getById(id);
+        return ResponseEntity.ok().body(worker);
+    }
 
     @PostMapping("/worker")
     public ResponseEntity<Workers> addWorker(@RequestBody Workers workers) {
