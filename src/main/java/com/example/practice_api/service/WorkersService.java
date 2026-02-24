@@ -1,8 +1,8 @@
 package com.example.practice_api.service;
 
 import com.example.practice_api.entity.Workers;
+import com.example.practice_api.exception.ResourceNotFoundException;
 import com.example.practice_api.repository.WorkersRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,19 +19,19 @@ public class WorkersService {
     }
     public Workers  getById(Long id){
         Workers worker=workersRepository.findById(id)
-                .orElseThrow(()->new IllegalArgumentException("Worker with id: "+id+" not found"));
+                .orElseThrow(()->new ResourceNotFoundException("Worker with id :"+id+" not found"));
         return worker;
     }
 
     public Workers addWorker(Workers worker){
         if(worker.getName().equals("")){
-            throw new IllegalArgumentException("Worker name cannot be empty");
+            throw new ResourceNotFoundException("Worker name cannot be empty");
         }
         return workersRepository.save(worker);
     }
     public Workers updateWorker(Long id, Workers workerDetails) {
         Workers worker = workersRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Worker not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Worker with id :"+id+" not found"));
         worker.setName(workerDetails.getName());
         worker.setEmail(workerDetails.getEmail());
         worker.setDepartment(workerDetails.getDepartment());
@@ -41,7 +41,7 @@ public class WorkersService {
     }
     public  Workers deleteWorker(Long id){
         Workers worker=workersRepository.findById(id)
-                .orElseThrow(()-> new IllegalArgumentException("Worker not found"));
+                .orElseThrow(()-> new ResourceNotFoundException("Worker with id :"+id+" not found"));
         return deleteWorker(id);
     }
 }
