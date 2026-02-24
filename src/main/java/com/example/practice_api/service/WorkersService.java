@@ -2,9 +2,11 @@ package com.example.practice_api.service;
 
 import com.example.practice_api.entity.Workers;
 import com.example.practice_api.repository.WorkersRepository;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class WorkersService {
 
     private final WorkersRepository workersRepository;
@@ -22,16 +24,19 @@ public class WorkersService {
         }
         return workersRepository.save(worker);
     }
-    public Workers updateWorker(Workers worker){
-        Workers  w=new Workers();
-        w.setName(worker.getName());
-        w.setEmail(worker.getEmail());
-        w.setDepartment(worker.getDepartment());
-        return workersRepository.save(w);
+    public Workers updateWorker(Long id, Workers workerDetails) {
+        Workers worker = workersRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Worker not found"));
+
+        worker.setName(workerDetails.getName());
+        worker.setEmail(workerDetails.getEmail());
+        worker.setDepartment(workerDetails.getDepartment());
+
+        return workersRepository.save(worker);
     }
-    public void deleteWorker(Long id){
+    public  Workers deleteWorker(Long id){
         Workers worker=workersRepository.findById(id)
-                .orElseThrow(()->new IllegalArgumentException("Worker not found"));
-        workersRepository.delete(worker);
+                .orElseThrow(()-> new IllegalArgumentException("Worker not found"));
+        return deleteWorker(id);
     }
 }

@@ -8,8 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-
-import javax.print.attribute.standard.DateTimeAtCreation;
+import org.hibernate.annotations.CreationTimestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -20,9 +20,10 @@ public class Workers {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long id;
     @NonNull
-    private String Name;
+    private String name;
     private String department;
     private String email;
-    private DateTimeAtCreation createdAt;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
 }
