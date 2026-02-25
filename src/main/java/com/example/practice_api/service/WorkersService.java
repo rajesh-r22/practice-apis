@@ -24,11 +24,16 @@ public class WorkersService {
     }
 
     public Workers addWorker(Workers worker){
+
         if(worker.getName().equals("")){
             throw new ResourceNotFoundException("Worker name cannot be empty");
         }
+        if(workersRepository.existsByEmail(worker.getEmail())){
+            throw new ResourceNotFoundException("Worker email already exists");
+        }
         return workersRepository.save(worker);
     }
+
     public Workers updateWorker(Long id, Workers workerDetails) {
         Workers worker = workersRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Worker with id :"+id+" not found"));
