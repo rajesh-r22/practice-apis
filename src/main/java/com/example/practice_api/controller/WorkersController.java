@@ -38,7 +38,7 @@ public class WorkersController {
         return  ResponseEntity.ok(w);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public  ResponseEntity<String>  deleteWorker(@PathVariable Long id) {
          workersService.deleteWorker(id);
          return ResponseEntity.ok("Worker deleted successfully");

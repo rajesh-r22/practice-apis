@@ -42,6 +42,7 @@ public class WorkersService {
     public  Workers deleteWorker(Long id){
         Workers worker=workersRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Worker with id :"+id+" not found"));
-        return deleteWorker(id);
+        workersRepository.delete(worker);
+        return worker;
     }
 }
